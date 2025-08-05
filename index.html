@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>गुफ्तगू & गस्त - Supper Club</title>
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap">
+    <!-- Tailwind CSS (for modern utility classes) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:ital,wght@0,400;1,400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #8b4513 0%, #d2691e 25%, #cd853f 50%, #daa520 75%, #b8860b 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255,215,0,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,140,0,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(139,69,19,0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: #fff8dc;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #ffd700;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1.8s ease-out;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: #f5deb3;
+            opacity: 0.9;
+            animation: fadeInUp 2.1s ease-out;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .mood-card {
+            background: rgba(255, 248, 220, 0.15);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00, #daa520, #ffd700);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .mood-card:hover::before {
+            opacity: 0.7;
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        .mood-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #fff8dc;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-description {
+            color: #f5deb3;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+            font-size: 1.05rem;
+        }
+
+        .atmosphere-section {
+            background: rgba(0,0,0,0.4);
+            border-radius: 25px;
+            padding: 3.5rem;
+            margin-bottom: 3rem;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .atmosphere-section::before {
+            content: '🪔';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: flicker 3s ease-in-out infinite;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ffd700, #ff8c00, #ffd700, transparent);
+            border-radius: 2px;
+        }
+
+        .atmosphere-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .atmosphere-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 248, 220, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .atmosphere-item:hover {
+            background: rgba(255, 248, 220, 0.2);
+            transform: scale(1.08);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .atmosphere-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .atmosphere-text {
+            color: #fff8dc;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .menu-inspiration {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,140,0,0.2));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            border-color: rgba(255, 215, 0, 0.7);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(255, 140, 0, 0.3);
+        }
+
+        .menu-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .menu-text {
+            color: #fff8dc;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .cultural-section {
+            background: rgba(139, 69, 19, 0.3);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .cultural-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .cultural-item {
+            background: rgba(255, 248, 220, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .cultural-item:hover {
+            background: rgba(255, 248, 220, 0.2);
+            transform: translateX(10px);
+        }
+
+        .cultural-emoji {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .cultural-title {
+            font-family: 'Playfair Display', serif;
+            color: #ffd700;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cultural-desc {
+            color: #f5deb3;
+            line-height: 1.6;
+        }
+        
+        .media-section {
+            background: rgba(0,0,0,0.4);
+            border-radius: 25px;
+            padding: 3.5rem;
+            margin-bottom: 3rem;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .media-card {
+            background: rgba(255, 248, 220, 0.15);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+        
+        .media-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .media-title {
+            font-family: 'Playfair Display', serif;
+            color: #ffd700;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .media-desc {
+            color: #f5deb3;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* YouTube iframe specific styling for responsiveness */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { 
+                background: linear-gradient(45deg, #ffd700, #ff8c00, #daa520, #ffd700);
+            }
+            50% { 
+                background: linear-gradient(45deg, #ff8c00, #ffd700, #ff8c00, #daa520);
+            }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-25px); }
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 248, 220, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.25);
+            border-color: rgba(255, 215, 0, 0.9);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .swatch-1 { background: #8b4513; } /* Masala Brown */
+        .swatch-2 { background: #d2691e; } /* Turmeric */
+        .swatch-3 { background: #ffd700; } /* Marigold Gold */
+        .swatch-4 { background: #fff8dc; } /* Basmati White */
+        .swatch-5 { background: #dc143c; } /* Chili Red */
+        .swatch-6 { background: #228b22; } /* Mint Green */
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .mood-grid, .cultural-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .atmosphere-section, .cultural-section, .media-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title floating">गुफ्तगू & गस्त</h1>
+            <h2 class="hero-subtitle">Guftagu & Gast - The Desi Supper Club</h2>
+            <p class="hero-tagline">Jahan dil ki baat aur swaadisht khana dono milte hain</p>
+            
+            <div class="color-palette">
+                <div class="color-swatch swatch-1" title="Masala Brown"></div>
+                <div class="color-swatch swatch-2" title="Haldi Gold"></div>
+                <div class="color-swatch swatch-3" title="Marigold"></div>
+                <div class="color-swatch swatch-4" title="Basmati White"></div>
+                <div class="color-swatch swatch-5" title="Lal Mirch Red"></div>
+                <div class="color-swatch swatch-6" title="Pudina Green"></div>
+            </div>
+        </div>
+
+        <div class="mood-grid">
+            <div class="mood-card">
+                <span class="card-icon">💬✨</span>
+                <h3 class="card-title">Deep Conversations</h3>
+                <p class="card-description">Heart-to-heart baatein aur meaningful discussions. Politics ho ya poetry, career struggles ho ya life philosophies - sabko sunने aur share karne ka space hai yahan.</p>
+            </div>
+
+            <div class="mood-card">
+                <span class="card-icon">🍛🍷</span>
+                <h3 class="card-title">Fusion Dining Experience</h3>
+                <p class="card-description">Traditional Indian flavors meet international cuisines. Chef special dishes with seasonal ingredients, paired wines, aur signature cocktails jo har palate ko khush kar dein.</p>
+            </div>
+
+            <div class="mood-card">
+                <span class="card-icon">🤝🌍</span>
+                <h3 class="card-title">Community & Connection</h3>
+                <p class="card-description">Different backgrounds, ages, aur experiences ke log ek saath. New friendships banaने ka platform aur existing bonds ko strengthen karne ka mauka.</p>
+            </div>
+
+            <div class="mood-card">
+                <span class="card-icon">🪔🏠</span>
+                <h3 class="card-title">Home Away From Home</h3>
+                <p class="card-description">Desi hospitality with contemporary comfort. Floor seating options, soft lighting, aur wo warmth jo sirf Indian homes mein milti hai - bas thoda elevated.</p>
+            </div>
+        </div>
+
+        <div class="media-section">
+            <h2 class="section-title col-span-full">Awaaz aur Andaaz</h2>
+            
+            <!-- YouTube Video Embed -->
+            <div class="media-card">
+                <h3 class="media-title">Cooking & Community</h3>
+                <p class="media-desc">Is video se cooking aur guest interaction ki vibes lo.</p>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/Hr0KxMgNPGI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <!-- YouTube Audio Embed -->
+            <div class="media-card">
+                <h3 class="media-title">The Perfect Soundscape</h3>
+                <p class="media-desc">Halki music jo dil ko sukoon de. Mood setting ke liye perfect.</p>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/xsWs0qWQlzE?autoplay=1&mute=1&controls=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="cultural-section">
+            <h2 class="section-title">हमारी विशेषता - What Makes Us Special</h2>
+            <div class="cultural-grid">
+                <div class="cultural-item">
+                    <span class="cultural-emoji">🎭</span>
+                    <div class="cultural-title">Adda Culture</div>
+                    <div class="cultural-desc">Bengali adda tradition ko modern twist ke saath. Intellectual debates, fun banter, aur sometimes silly discussions bhi - variety mein spice hai!</div>
+                </div>
+                
+                <div class="cultural-item">
+                    <span class="cultural-emoji">🪔</span>
+                    <div class="cultural-title">Aesthetic Ambiance</div>
+                    <div class="cultural-desc">Hand-picked decor with Indian elements. Diyas, brass accents, marigold touches, aur comfortable seating jo conversation encourage karta hai.</div>
+                </div>
+                
+                <div class="cultural-item">
+                    <span class="cultural-emoji">🎵</span>
+                    <div class="cultural-title">Curated Soundscape</div>
+                    <div class="cultural-desc">Background music jo conversation mein interference na kare. Soft Indian classical, sometimes jazz, kabhi Sufi - mood ke according.</div>
+                </div>
+                
+                <div class="cultural-item">
+                    <span class="cultural-emoji">🙏</span>
+                    <div class="cultural-title">Inclusive Vibes</div>
+                    <div class="cultural-desc">Everyone welcome, har opinion respected. Judgment-free zone where you can be yourself aur freely express without any hesitation.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="atmosphere-section">
+            <h2 class="section-title">Mood & Mahol</h2>
+            <div class="atmosphere-grid">
+                <div class="atmosphere-item">
+                    <span class="atmosphere-emoji">🔥</span>
+                    <p class="atmosphere-text">Cozy Warmth</p>
+                </div>
+                <div class="atmosphere-item">
+                    <span class="atmosphere-emoji">💭</span>
+                    <p class="atmosphere-text">Thoughtful Talks</p>
+                </div>
+                <div class="atmosphere-item">
+                    <span class="atmosphere-emoji">🌺</span>
+                    <p class="atmosphere-text">Desi Decor Touch</p>
+                </div>
+                <div class="atmosphere-item">
+                    <span class="atmosphere-emoji">☕</span>
+                    <p class="atmosphere-text">Chai-Coffee Corner</p>
+                </div>
+                <div class="atmosphere-item">
+                    <span class="atmosphere-emoji">🎨</span>
+                    <p class="atmosphere-text">Creative Energy</p>
+                </div>
+                <div class="atmosphere-item">
+                    <span class="atmosphere-emoji">🤗</span>
+                    <p class="atmosphere-text">Warm Welcome</p>
+                </div>
+            </div>
+
+            <div class="menu-inspiration">
+                <div class="menu-item">
+                    <span class="menu-emoji">🫖</span>
+                    <p class="menu-text">Masala Chai & Specialty Teas</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🍛</span>
+                    <p class="menu-text">Fusion Curries & Rice</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🥟</span>
+                    <p class="menu-text">Artisan Chaats & Bites</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🍯</span>
+                    <p class="menu-text">Local Honey & Condiments</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🥘</span>
+                    <p class="menu-text">Regional Specialties</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🍮</span>
+                    <p class="menu-text">Desi Desserts & Sweets</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🌿</span>
+                    <p class="menu-text">Fresh Herbs & Chutneys</p>
+                </div>
+                <div class="menu-item">
+                    <span class="menu-emoji">🥭</span>
+                    <p class="menu-text">Seasonal Drinks & Lassi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.mood-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-15px) rotateY(8deg) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) rotateY(0) scale(1)';
+                });
+            });
+
+            // Color palette interaction
+            const swatches = document.querySelectorAll('.color-swatch');
+            const colorNames = [
+                'Masala Brown - Earthy comfort',
+                'Haldi Gold - Auspicious warmth', 
+                'Marigold - Festive joy',
+                'Basmati White - Pure elegance',
+                'Lal Mirch Red - Passionate conversations',
+                'Pudina Green - Fresh perspectives'
+            ];
+            
+            swatches.forEach((swatch, index) => {
+                swatch.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.4)';
+                    this.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.8)';
+                    
+                    console.log(colorNames[index]);
+                    
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                        this.style.boxShadow = 'none';
+                    }, 300);
+                });
+            });
+
+            // Enhanced scroll effects
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero-section');
+                const cards = document.querySelectorAll('.mood-card');
+                
+                hero.style.transform = `translateY(${scrolled * 0.2}px)`;
+                
+                cards.forEach((card, index) => {
+                    const cardOffset = scrolled * 0.1 * (index + 1);
+                    card.style.transform = `translateY(${cardOffset}px)`;
+                });
+            });
+
+            // Cultural items interaction
+            const culturalItems = document.querySelectorAll('.cultural-item');
+            culturalItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.background = 'rgba(255, 215, 0, 0.2)';
+                    setTimeout(() => {
+                        this.style.background = 'rgba(255, 248, 220, 0.1)';
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
